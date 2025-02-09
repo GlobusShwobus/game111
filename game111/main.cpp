@@ -18,7 +18,7 @@ int main() {
 		if (event.type == SDL_EventType::SDL_EVENT_QUIT) {
 			gameRunning = false;
 		}
-
+		//asd
 	}
 
 	SDL_Quit();
