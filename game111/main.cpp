@@ -1,27 +1,119 @@
+#include <fstream>
+#include "RenderWindow.h"
 
-#include <SDL3/SDL.h>
+/*
+1. make a png for ground obj
+2. make basic enemey png
+3. make player png
+4. make bullet png
+
+5. make bounding box
+6. fix config
+7. make entity class
+8. make manager
+
+9. draw it on the screen
+
+10. make movement
+11. make collison
+
+*/
+
+class JHandle {
+    nlohmann::json* json = nullptr;
+public:
+
+    const nlohmann::json* const Get()const {
+        return json;
+    }
+    bool Good()const {
+        return json;
+    }
+
+    JHandle(const char* filename) {
+        std::ifstream in(filename);
+        if (in.good()) {
+            json = new nlohmann::json();
+            in >> *json;
+        }
+    }
+
+    ~JHandle() {
+        if (json) {
+            delete json;
+        }
+    }
+};
+
+struct WindowInit {
+
+    std::string title;
+    unsigned int width = 0;
+    unsigned int height = 0;
+
+    WindowInit(const nlohmann::json& json) {
+
+        auto& wStuff = json["Window"];
+
+        title = wStuff["game_name"];
+        width = wStuff["width"];
+        height = wStuff["height"];
+    }
+};
+
 
 int main() {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-	SDL_Init(SDL_INIT_VIDEO);
+    JHandle config("Config.json");
 
-	SDL_Window* window = SDL_CreateWindow("title", 800, 600, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
-	SDL_Renderer* render= SDL_CreateRenderer(window, NULL);
+    if (!config.Good()) {
+        MessageBox(nullptr, L"Config failed init", L"error init", MB_OK | MB_ICONERROR);
+        return -1;
+    }
 
-	bool gameRunning = true;
-	SDL_Event event;
+    WindowInit wParams(*config.Get());
 
-	while (gameRunning) {
 
-		SDL_PollEvent(&event);
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
+        MessageBox(nullptr, L"SDL init fail", L"error init", MB_OK | MB_ICONERROR);
+        return -1;
+    }
 
-		if (event.type == SDL_EventType::SDL_EVENT_QUIT) {
-			gameRunning = false;
-		}
-		//asd
-	}
+    RenderWindow window(wParams.title.c_str(), wParams.width, wParams.height);
 
-	SDL_Quit();
+    if (!window.Good()) {
+        MessageBox(nullptr, L"Window failed init", L"error init", MB_OK | MB_ICONERROR);
+        return -1;
+    }
 
-	return 0;
+    /////test
+
+
+    SDL_Texture* grassTexture = window.LoadTexture("/Textures/player_10.png");
+
+    /////
+
+    bool gameRunning = true;
+    SDL_Event event;
+
+    while (gameRunning) {
+
+        SDL_PollEvent(&event);
+
+        if (event.type == SDL_EventType::SDL_EVENT_QUIT) {
+            gameRunning = false;
+        }
+
+        window.Clear();
+        window.Render(grassTexture);
+        window.Display();
+
+    }
+
+
+    window.~RenderWindow();
+    SDL_Quit();
+
+    return 0;
 }
