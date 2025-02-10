@@ -1,23 +1,6 @@
 #include "Components.h"
 
 
-float vec2::Dist(const vec2& end)const {
-	const float A = (end.x - x) * 2;
-	const float B = (end.y - y) * 2;
-
-	return std::sqrtf(A + B);
-}
-
-float vec2::Lenght()const {
-	return std::sqrtf((x * x) + (y * y));
-}
-
-vec2 vec2::Normalized()const {
-	float len = Lenght();
-	if (len == 0)return vec2(0, 0);
-	return { x / len, y / len };
-}
-
 ////////////////////////////////////////////////////B O U N D I N G  B O X//////////////////////////////////////////
 ////////////////////////////////////////////////////B O U N D I N G  B O X//////////////////////////////////////////
 ////////////////////////////////////////////////////B O U N D I N G  B O X//////////////////////////////////////////
@@ -53,29 +36,29 @@ CollisionSide  BoundingBox::GetCollisionSide(const BoundingBox& another)const {
 		return CollisionSide::no_overlap;
 }
 
-vec2 Collision::ReflectVelocity(const BoundingBox& reflected, const BoundingBox& from) {
+vec2f PoSMath::ReflectVelocity(const BoundingBox& reflected, const BoundingBox& from, vec2i& vel) {
 
 	CollisionSide colSide = reflected.GetCollisionSide(from);
 
-	vec2 norm = { 0,0 };
+	vec2f norm = { 0,0 };
 
 	switch (colSide) {
 	case CollisionSide::left:     norm.x = -1; break;
 	case CollisionSide::right:    norm.x = 1;  break;
 	case CollisionSide::top:      norm.y = -1; break;
 	case CollisionSide::bottom:   norm.y = 1;  break;
-	default:                                   return { reflected.velocity };
+	default:                                   return { (float)vel.x,  (float)vel.y };
 	}
 
-	float dot = reflected.velocity.x * norm.x + reflected.velocity.y * norm.y;
+	float dot = vel.x * norm.x + vel.y * norm.y;
 
-	return{ reflected.velocity.x - (2 * dot * norm.x),reflected.velocity.y - (2 * dot * norm.y) };
+	return{ vel.x - (2 * dot * norm.x),vel.y - (2 * dot * norm.y) };
 }
-vec2 Collision::BlockFurtherMove(const BoundingBox& guilty, const BoundingBox& another) {
+vec2f PoSMath::BlockFurtherMove(const BoundingBox& guilty, const BoundingBox& another) {
 
 	CollisionSide colSide = guilty.GetCollisionSide(another);
 
-	vec2 block = { guilty.x, guilty.y };
+	vec2f block = { (float)guilty.x, (float)guilty.y };
 
 	switch (colSide) {
 	case CollisionSide::left:
@@ -96,16 +79,30 @@ vec2 Collision::BlockFurtherMove(const BoundingBox& guilty, const BoundingBox& a
 	return block;
 }
 
+////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
+////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
+////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
+////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
+////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
+/*
+float vec2::Dist(const vec2& end)const {
+	const float A = (end.x - x) * 2;
+	const float B = (end.y - y) * 2;
 
+	return std::sqrtf(A + B);
+}
 
-////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
-////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
-////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
-////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
-////////////////////////////////////////////////////C U R E N T L Y    M I S C//////////////////////////////////////
+float vec2::Lenght()const {
+	return std::sqrtf((x * x) + (y * y));
+}
 
-
-float line::Slope(const vec2& first, const vec2& second) {
+vec2 vec2::Normalized()const {
+	float len = Lenght();
+	if (len == 0)return vec2(0, 0);
+	return { x / len, y / len };
+}
+*/
+float line::Slope(const vec2f& first, const vec2f& second) {
 	float ex = second.x - first.x;
 	float ey = second.y - first.y;
 
@@ -126,7 +123,7 @@ float line::Angle(const line& first, const line& second) {
 	return (ret * 180) / PI;
 }
 
-vec2 line::Intersection(const line& line1, const line& line2) {
+vec2f line::Intersection(const line& line1, const line& line2) {
 
 	static constexpr float epsilon = 1e-6f;
 

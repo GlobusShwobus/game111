@@ -88,7 +88,7 @@ int main() {
     }
 
     /////test
-    SDL_Texture* playerTexture = window.LoadTexture("../Textures/player_01.png");
+    SDL_Texture* playerTexture = window.LoadTexture("../Textures/player_ver2.png");
 
     if (!playerTexture) {
         MessageBox(nullptr, L"grass is ass", L"error init", MB_OK | MB_ICONERROR);

@@ -14,13 +14,13 @@
 #include <algorithm>
 
 
-class vec2 {
+template <typename T> class vec2 {
 public:
+	T x = 0;
+	T y = 0;
+	
+	vec2(const T X, const T Y) :x(X), y(Y) {}
 
-	float x = 0;
-	float y = 0;
-
-	vec2(const float X, const float Y) :x(X), y(Y) {}
 	//equate
 	bool operator==(const vec2& other)const {
 		return(x == other.x) && (y == other.y);
@@ -39,7 +39,7 @@ public:
 	}
 	//subtraction
 	vec2 operator-(const vec2& rhs)const {
-		return vec2(x - rhs.x, y - rhs.y);
+		return vec2f(x - rhs.x, y - rhs.y);
 	}
 	vec2 operator-=(const vec2& rhs) {
 		x -= rhs.x;
@@ -64,24 +64,23 @@ public:
 		y /= scale;
 		return *this;
 	}
-
-	float Dist(const vec2& end)const;
-	float Lenght()const;
-	vec2 Normalized()const;
 };
+
+typedef vec2<int> vec2i;
+typedef vec2<float> vec2f;
 
 namespace line {
 
 	struct line {
-		vec2 beg = { 0,0 };
-		vec2 end = { 0,0 };
+		vec2f beg = { 0,0 };
+		vec2f end = { 0,0 };
 
-		line(const vec2& s, const vec2& e) :beg(s), end(e) {}
+		line(const vec2f& s, const vec2f& e) :beg(s), end(e) {}
 	};
 
-	float Slope(const vec2& first, const vec2& second);
+	float Slope(const vec2f& first, const vec2f& second);
 	float Angle(const line& first, const line& second);
-	vec2 Intersection(const line& line1, const line& line2);
+	vec2f Intersection(const line& line1, const line& line2);
 	float Sqrt(const float num);
 }
 
@@ -92,14 +91,13 @@ enum class CollisionSide {
 
 class BoundingBox {
 public:
-	float x = 0.f;
-	float y = 0.f;
-	float width = 0.f;
-	float height = 0.f;
-	vec2 velocity = { 0,0 };
+	int x = 0.f;
+	int y = 0.f;
+	int width = 0.f;
+	int height = 0.f;
 
-	BoundingBox(const vec2& pos, const vec2& vel, const vec2& dimensions) :x(pos.x), y(pos.y), width(dimensions.x), height(dimensions.y), velocity(vel) {}
-	BoundingBox(float X, float Y, float WIDTH, float HEIGHT, const vec2& VEL) :x(X), y(Y), width(WIDTH), height(HEIGHT), velocity(VEL) {}
+	BoundingBox(const vec2i& pos, const vec2i& dimensions) :x(pos.x), y(pos.y), width(dimensions.x), height(dimensions.y) {}
+	BoundingBox(int X, int Y, int WIDTH, int HEIGHT) :x(X), y(Y), width(WIDTH), height(HEIGHT){}
 	BoundingBox() = default;
 
 	BoundingBox& GetBoundingBox();
@@ -107,11 +105,18 @@ public:
 	CollisionSide GetCollisionSide(const BoundingBox& another)const;
 };
 
-namespace Collision {
+namespace PoSMath {
 
-	vec2 ReflectVelocity(const BoundingBox& reflected, const BoundingBox& from);
-	vec2 BlockFurtherMove(const BoundingBox& guilty, const BoundingBox& another);
+	vec2f ReflectVelocity(const BoundingBox& reflected, const BoundingBox& from, vec2i& vel);
+	vec2f BlockFurtherMove(const BoundingBox& guilty, const BoundingBox& another);
 
+
+
+	/*
+	float Dist(const vec2i& end);
+	float Lenght();
+	vec2i Normalized();
+	*/
 }
 
 class CInput {

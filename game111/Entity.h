@@ -3,6 +3,20 @@
 #include "Components.h"
 #include <set>
 
+enum class EntityType;
+
+class Entity {
+
+
+};
+
+
+
+enum class EntityType {
+	player, enemy
+};
+
+
 /*
 enum class EntityType {
 	player, enemy, bullet, obstacle, stickybomb, stickyAttached, NULLTYPE

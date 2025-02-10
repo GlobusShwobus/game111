@@ -33,7 +33,21 @@ void RenderWindow::Clear()
 
 void RenderWindow::Render(SDL_Texture* textr)
 {
-	SDL_RenderTexture(renderer, textr, NULL, NULL);
+	SDL_FRect src;
+	src.x = 0;
+	src.y = 0;
+	src.w = 32;
+	src.h = 32;
+
+
+	SDL_FRect dest;
+	dest.x = 100;
+	dest.y = 100;
+	dest.w = 32*4;
+	dest.h = 32*4;
+
+
+	SDL_RenderTexture(renderer, textr, &src, &dest);
 }
 
 void RenderWindow::Display()
