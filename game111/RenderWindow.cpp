@@ -15,7 +15,7 @@ SDL_Texture* RenderWindow::LoadTexture(const char* filepath)
 {
 	SDL_Texture* texture = nullptr;
 
-	//texture = IMG_LoadTexture(renderer, filepath);
+	texture = IMG_LoadTexture(renderer, filepath);
 
 	//check somewhere else
 	//if (!texture) {
