@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entity.h"
+#include "Components.h"
 
 class RenderWindow {
 
@@ -26,6 +26,10 @@ public:
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(window);
 	}
+private:
+	RenderWindow(const RenderWindow&) = delete;
+	RenderWindow(RenderWindow&&)noexcept = delete;
+	RenderWindow& operator=(const RenderWindow&) = delete;
 };
 
 
