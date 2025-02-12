@@ -11,8 +11,6 @@ public:
 
 	RenderWindow(const char* title, int width, int height);
 
-	SDL_Texture* LoadTexture(const char* filepath);
-
 	bool Good()const {
 		return window && renderer;
 	}

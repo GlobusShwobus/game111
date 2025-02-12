@@ -143,10 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="File_Manager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="RenderWindow.cpp" />
+    <ClCompile Include="Texture_Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Desktop\tools\SDL-main\VisualC\SDL\SDL.vcxproj">
@@ -159,7 +161,11 @@
   <ItemGroup>
     <ClInclude Include="Components.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Entity_Manager.h" />
+    <ClInclude Include="File_Manager.h" />
     <ClInclude Include="RenderWindow.h" />
+    <ClInclude Include="Texture_Manager.h" />
+    <ClInclude Include="vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

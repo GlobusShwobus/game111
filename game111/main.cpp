@@ -87,13 +87,7 @@ int main() {
         return -1;
     }
 
-    /////test
-    SDL_Texture* playerTexture = window.LoadTexture("../Textures/player_ver2.png");
 
-    if (!playerTexture) {
-        MessageBox(nullptr, L"grass is ass", L"error init", MB_OK | MB_ICONERROR);
-    }
-    /////
 
     bool gameRunning = true;
     SDL_Event event;
@@ -107,7 +101,7 @@ int main() {
         }
 
         window.Clear();
-        window.Render(playerTexture);
+        //window.Render(playerTexture);
         window.Display();
 
     }

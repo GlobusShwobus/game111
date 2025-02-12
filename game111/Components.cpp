@@ -1,6 +1,14 @@
 #include "Components.h"
 
 
+
+//       EVERYTHING TEMPORARYLY OR PERMANENTLY DEPRICATED      
+
+
+
+
+
+/*
 ////////////////////////////////////////////////////B O U N D I N G  B O X//////////////////////////////////////////
 ////////////////////////////////////////////////////B O U N D I N G  B O X//////////////////////////////////////////
 ////////////////////////////////////////////////////B O U N D I N G  B O X//////////////////////////////////////////
@@ -102,6 +110,7 @@ vec2 vec2::Normalized()const {
 	return { x / len, y / len };
 }
 */
+/*
 float line::Slope(const vec2f& first, const vec2f& second) {
 	float ex = second.x - first.x;
 	float ey = second.y - first.y;
@@ -159,3 +168,4 @@ float line::Sqrt(const float num) {//idk, apperantly standart lib one uses hardw
 
 	return sr;
 }
+*/
