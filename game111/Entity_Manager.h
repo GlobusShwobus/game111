@@ -2,101 +2,61 @@
 
 #include "Entity.h"
 
-struct Config {
-	EntityType type;
-	int size_x;
-	int size_y;
-	int speed;
-};
-
 class EntityManager {
-
-	std::vector<Config> entity_data_shortcuts;
 
 	std::vector<std::shared_ptr<Entity>> add_next_frame;
 	std::vector<std::shared_ptr<Entity>> all;
 	std::map<EntityType, std::vector<std::shared_ptr<Entity>>> per_type;
 
-
 	size_t total_entities = 0;
-
-	vec2i window_size = { 0,0 };
-
-	void InitLocalConfig(const nlohmann::json& config);
-
-	bool PosIsFree(vec2i& pos)const;
-
 	void RemoveInactive();
 
 public:
 
-	EntityManager(const nlohmann::json& CONFIG) {
-		InitLocalConfig(CONFIG);
-	}
+	EntityManager() {}
 
 	void Update();
+	void ResteatType(int entity_id, const EntityType current_type, const EntityType change_to);
 
-	//void AddEnemy(vec2& POS, const vec2& VEL);
-	//void AddBullet(const vec2& origin, const vec2& target);
-	//void AddStickyBomb(const vec2& origin, const vec2& target);
-	//void AddObstacle(vec2& POS);
 
-	const std::vector<std::shared_ptr<Entity>>& GetEntities()const {
-		return all;
-	}
-	const std::vector<std::shared_ptr<Entity>>& GetEntities(const EntityType t) {
-		return per_type[t];
-	}
-	const std::map<EntityType, std::vector<std::shared_ptr<Entity>>>& GetEntitiesMap()const {
-		return per_type;
-	}
+	void AddEntity(const nlohmann::json& entity_config, SDL_Texture* texture);
+
+	const std::vector<std::shared_ptr<Entity>>& GetEntities()const;
+	const std::vector<std::shared_ptr<Entity>>& GetEntities(const EntityType t);
+	const std::map<EntityType, std::vector<std::shared_ptr<Entity>>>& GetEntitiesMap()const;
+
 	/*
-	//think it works, did not test beyond taking a look and it looking like cancer
-	const std::map<EntityType, std::vector<const Entity* const>> GetCustomMap(const std::set<EntityType>& listoftypes)const {
+	bool PosIsFree(vec2& pos)const {
 
-		std::map<EntityType, std::vector<const Entity* const>> custom;
+		while (true) {
+			bool isFree = true;
 
-		for (EntityType type : listoftypes) {
+			for (const auto& each : all) {
+				const sf::FloatRect& bounds = each->shape.getGlobalBounds();
 
-			for (auto& [key, val] : per_type) {
+				if (bounds.contains(pos.x, pos.y)) {
 
-				if (key == type) {
+					isFree = false;
 
-					for (const std::shared_ptr<Entity>& each : val) {
+					pos.x = bounds.left + bounds.width;
 
-						custom[key].push_back(each.get());
 
+					if (pos.x >= window_size.x) {
+						pos.x = 0;
+						pos.y += bounds.height;
 					}
 
+					if (pos.y >= window_size.y) {
+						return false;
+					}
+					break;
 				}
-
 			}
 
-		}
-
-		return custom;
-	}
-	*/
-	/*
-	void ResteatType(int entity_id, const EntityType current_type, const EntityType change_to) {
-
-		for (auto& [key, val] : per_type) {
-			if (key != current_type) {
-				continue;
+			if (isFree) {
+				return true;
 			}
-
-			auto it = std::remove_if(val.begin(), val.end(), [&](std::shared_ptr<Entity>& each) {
-				if (each->ID() == entity_id) {
-					each->type = change_to;
-					per_type[change_to].push_back(std::move(each));
-					return true;
-				}
-				return false;
-				});
-
-			val.erase(it, val.end());
 		}
-
 	}
 	*/
 };

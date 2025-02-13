@@ -16,9 +16,7 @@ public:
 	}
 
 	void Clear();
-	void Render(SDL_Texture* textr);
 	void Display();
-
 
 	~RenderWindow() {
 		SDL_DestroyRenderer(renderer);

@@ -19,32 +19,6 @@
 
 */
 
-class JHandle {
-    nlohmann::json* json = nullptr;
-public:
-
-    const nlohmann::json* const Get()const {
-        return json;
-    }
-    bool Good()const {
-        return json;
-    }
-
-    JHandle(const char* filename) {
-        std::ifstream in(filename);
-        if (in.good()) {
-            json = new nlohmann::json();
-            in >> *json;
-        }
-    }
-
-    ~JHandle() {
-        if (json) {
-            delete json;
-        }
-    }
-};
-
 struct WindowInit {
 
     std::string title;
@@ -65,6 +39,7 @@ struct WindowInit {
 int main() {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
+    /*
     JHandle config("Config.json");
 
     if (!config.Good()) {
@@ -74,7 +49,7 @@ int main() {
 
     WindowInit wParams(*config.Get());
 
-
+    
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         MessageBox(nullptr, L"SDL init fail", L"error init", MB_OK | MB_ICONERROR);
         return -1;
@@ -87,7 +62,7 @@ int main() {
         return -1;
     }
 
-
+    
 
     bool gameRunning = true;
     SDL_Event event;
@@ -109,6 +84,6 @@ int main() {
 
     window.~RenderWindow();
     SDL_Quit();
-
+    */
     return 0;
 }
