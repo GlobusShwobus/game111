@@ -1,4 +1,6 @@
 #include <fstream>
+#include "JSON_Config.h"
+#include "Texture_Manager.h"
 #include "RenderWindow.h"
 
 /*
@@ -37,19 +39,21 @@ struct WindowInit {
 
 
 int main() {
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-    /*
-    JHandle config("Config.json");
+    //initialize config and file manager, (and window but probably should move window at some point)
+    FileManager fileman;
+    JSONConfig config;
 
+    config.Init(fileman.GetEntityConfig("Config.json"));
+    
     if (!config.Good()) {
         MessageBox(nullptr, L"Config failed init", L"error init", MB_OK | MB_ICONERROR);
         return -1;
     }
 
-    WindowInit wParams(*config.Get());
+    WindowInit wParams(config.Get());
 
-    
+    //initalize SDL and RenderWIndow
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         MessageBox(nullptr, L"SDL init fail", L"error init", MB_OK | MB_ICONERROR);
         return -1;
@@ -62,10 +66,20 @@ int main() {
         return -1;
     }
 
-    
+    //initialize TextureManager
+
+    TextureManager textman;
+    textman.InitializeTextures(fileman.GetTextureFolderContents("../Textures"), window.GetRenderer());
+
+
+
+
+
 
     bool gameRunning = true;
     SDL_Event event;
+
+
 
     while (gameRunning) {
 
@@ -76,7 +90,6 @@ int main() {
         }
 
         window.Clear();
-        //window.Render(playerTexture);
         window.Display();
 
     }
@@ -84,6 +97,6 @@ int main() {
 
     window.~RenderWindow();
     SDL_Quit();
-    */
+    
     return 0;
 }

@@ -15,6 +15,9 @@ public:
 		return window && renderer;
 	}
 
+	SDL_Renderer* GetRenderer()const {
+		return renderer;
+	}
 	void Clear();
 	void Display();
 
