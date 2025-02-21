@@ -15,7 +15,7 @@ class Entity {
 	EntityType type;
 	bool isActive = true;
 
-	Entity(const int id, EntityType Type, const const SDL_FRect& box, SDL_Texture* textPtr) :texture(textPtr), bb(box), ID(id), type(Type) {}
+	Entity(const int id, EntityType Type, const SDL_FRect& box, SDL_Texture* textPtr) :texture(textPtr), bb(box), ID(id), type(Type) {}
 public:
 
 	void Draw(SDL_Renderer* renderer)const;
@@ -32,3 +32,4 @@ public:
 enum class EntityType {
 	player, enemy
 };
+

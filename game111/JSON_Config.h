@@ -3,18 +3,19 @@
 #include "File_Manager.h"
 
 class JSONConfig {
-    std::unique_ptr<nlohmann::json> entity_config;
+    std::unique_ptr<nlohmann::json> config;
 
 public:
     JSONConfig() = default;
 
     void Init(std::unique_ptr<nlohmann::json> config);
     const nlohmann::json& Get()const;
+    //kinda shitty atm, need to work with enums if i plan on just having a single big dick config file
     const nlohmann::json& Get(const char* specific)const {
         static nlohmann::json empty;
 
-        if (entity_config && entity_config->contains(specific)) {
-            return (*entity_config)[specific];
+        if (config && config->contains(specific)) {
+            return (*config)[specific];
         }
         else
             return empty;

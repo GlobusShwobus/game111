@@ -73,9 +73,6 @@ int main() {
 
 
 
-
-
-
     bool gameRunning = true;
     SDL_Event event;
 
