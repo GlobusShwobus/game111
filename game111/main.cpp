@@ -1,24 +1,14 @@
 #include <fstream>
 #include "JSON_Config.h"
 #include "Texture_Manager.h"
+#include "Entity_Manager.h"
 #include "RenderWindow.h"
 
 /*
-1. make a png for ground obj
-2. make basic enemey png
-3. make player png
-4. make bullet png
+spawn player with right click
+despawn player with left click
 
-5. make bounding box
-6. fix config
-7. make entity class
-8. make manager
-
-9. draw it on the screen
-
-10. make movement
-11. make collison
-
+figure a way to make map manager
 */
 
 struct WindowInit {
@@ -69,24 +59,67 @@ int main() {
     //initialize TextureManager
 
     TextureManager textman;
-    textman.InitializeTextures(fileman.GetTextureFolderContents("../Textures"), window.GetRenderer());
+
+    for (const auto& paths : fileman.GetTextureFolderContents("../Textures")) {
+
+        SDL_Texture* passownershiptoidkdoireallycareifsomeonereadsthis = window.UniqueTextureLoad(paths.string().c_str());
+
+        textman.InitializeTexture(paths.stem().string(), passownershiptoidkdoireallycareifsomeonereadsthis);
 
 
+    }
+
+    //initialize EntityManager
+
+    EntityManager entman;
+
+
+
+
+    //main game loop
 
     bool gameRunning = true;
     SDL_Event event;
 
 
-
     while (gameRunning) {
+
+        entman.Update();
+
 
         SDL_PollEvent(&event);
 
         if (event.type == SDL_EventType::SDL_EVENT_QUIT) {
             gameRunning = false;
         }
+        else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+            if (event.button.button == SDL_BUTTON_LEFT) {
+
+                for (auto& ent : entman.GetEntities()) {
+
+                    ent->Kill();
+
+                }
+
+            }
+            else if (event.button.button == SDL_BUTTON_RIGHT) {
+
+                entman.AddEntity(*config.Get("Player"), EntityType::player, textman);
+
+            }
+        }
+
 
         window.Clear();
+
+        for (auto& ent : entman.GetEntities()) {
+            window.Render(ent->GetTexture(), ent->GetBB());
+        }
+
+        int cont_size = entman.GetEntities().size();
+        printf("\n%s%d", "Entity size: ", cont_size);
+
+
         window.Display();
 
     }

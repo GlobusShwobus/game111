@@ -26,7 +26,7 @@ void EntityManager::RemoveInactive()
 			}), val.end());
 	}
 }
-void EntityManager::ResteatType(int entity_id, const EntityType current_type, const EntityType change_to) {
+void EntityManager::ResteatType(int entity_id, EntityType current_type, const EntityType change_to) {
 
 	for (auto& [key, val] : per_type) {
 		if (key != current_type) {
@@ -55,4 +55,22 @@ const std::vector<std::shared_ptr<Entity>>& EntityManager::GetEntities(const Ent
 }
 const std::map<EntityType, std::vector<std::shared_ptr<Entity>>>& EntityManager::GetEntitiesMap()const {
 	return per_type;
+}
+
+
+
+
+
+void EntityManager::AddEntity(const nlohmann::json& entity_config, EntityType type, const TextureManager& txtm) {
+
+	SDL_FRect bb;
+	bb.x = entity_config["posx"];
+	bb.y = entity_config["posy"];
+	bb.w = entity_config["width"];
+	bb.h = entity_config["height"];
+
+	SDL_Texture* txt = txtm.GetTexture(entity_config["texture"].get<std::string>());
+	auto make = std::shared_ptr<Entity>(new Entity(total_entities++, type, bb, txt));
+
+	add_next_frame.push_back(make);
 }

@@ -11,14 +11,14 @@ public:
     void Init(std::unique_ptr<nlohmann::json> config);
     const nlohmann::json& Get()const;
     //kinda shitty atm, need to work with enums if i plan on just having a single big dick config file
-    const nlohmann::json& Get(const char* specific)const {
-        static nlohmann::json empty;
+    const nlohmann::json* Get(const char* specific)const {
+
 
         if (config && config->contains(specific)) {
-            return (*config)[specific];
+            return &(*config)[specific];
         }
-        else
-            return empty;
+        return nullptr;
+
     }
 
     bool Good()const;

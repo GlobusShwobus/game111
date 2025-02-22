@@ -1,14 +1,18 @@
 {
 	"Player": {
+		"texture": "player_ver2",
 		"posx": 100,
 		"posy": 100,
-		"size_x": 32,
-		"size_y": 32,
+		"width": 32,
+		"height": 32,
 		"Base_speed": 5
 	},
 	"Enemy": {
-		"size_x": 20,
-		"size_y": 20,
+		"texture": "enemy_spear_ver1",
+		"posx": 200,
+		"posy": 200,
+		"width": 20,
+		"height": 20,
 		"Base_speed": 2
 	},
 	"Window": {

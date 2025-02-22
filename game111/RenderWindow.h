@@ -14,12 +14,10 @@ public:
 	bool Good()const {
 		return window && renderer;
 	}
-
-	SDL_Renderer* GetRenderer()const {
-		return renderer;
-	}
 	void Clear();
 	void Display();
+	void Render(SDL_Texture* texture, const SDL_FRect* bb);
+	SDL_Texture* UniqueTextureLoad(const char* path);
 
 	~RenderWindow() {
 		SDL_DestroyRenderer(renderer);

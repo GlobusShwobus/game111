@@ -1,8 +1,9 @@
 #include "Texture_Manager.h"
 
-void TextureManager::InitializeTextures(const std::vector<std::filesystem::path>& texture_path_list, SDL_Renderer* renderer)
+void TextureManager::InitializeTexture(const std::string& name, SDL_Texture* texture)
 {
-	
+	textures.emplace(name, texture);
+	/*
 	for (const std::filesystem::path& path : texture_path_list) {
 		SDL_Texture* texture = IMG_LoadTexture(renderer, path.string().c_str());
 	
@@ -13,7 +14,7 @@ void TextureManager::InitializeTextures(const std::vector<std::filesystem::path>
 
 		textures.emplace(path.stem().string(), texture);
 	}
-
+	*/
 }
 
 SDL_Texture* TextureManager::GetTexture(const std::string& name) const

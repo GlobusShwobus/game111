@@ -18,10 +18,10 @@ class Entity {
 	Entity(const int id, EntityType Type, const SDL_FRect& box, SDL_Texture* textPtr) :texture(textPtr), bb(box), ID(id), type(Type) {}
 public:
 
-	void Draw(SDL_Renderer* renderer)const;
+	SDL_Texture* GetTexture()const;
+	const SDL_FRect* GetBB()const;
 	EntityType GetType()const;
 	int GetID()const;
-	const SDL_FRect GetBoundingBox()const;
 	void Kill();
 	bool IsActive()const;
 	vec2f GetPosition()const;

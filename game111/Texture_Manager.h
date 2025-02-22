@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-#include <SDL3_image/SDL_image.h>
 #include "File_Manager.h"
 #include <map>
 
@@ -16,7 +15,7 @@ public:
 
 	TextureManager() = default;
 	
-	void InitializeTextures(const std::vector<std::filesystem::path>& texture_path_list, SDL_Renderer* renderer);
+	void InitializeTexture(const std::string& name, SDL_Texture* texture);
 
 	SDL_Texture* GetTexture(const std::string& name)const;
 	SDL_Texture* GetTexture(const TextureName name)const;//for future

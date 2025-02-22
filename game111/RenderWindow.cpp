@@ -21,3 +21,11 @@ void RenderWindow::Display()
 {
 	SDL_RenderPresent(renderer);
 }
+void RenderWindow::Render(SDL_Texture* texture, const SDL_FRect* bb)
+{
+	SDL_RenderTexture(renderer, texture, nullptr, bb);
+}
+SDL_Texture* RenderWindow::UniqueTextureLoad(const char* path)
+{
+	return IMG_LoadTexture(renderer, path);
+}
