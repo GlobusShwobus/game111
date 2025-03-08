@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="JSON_Config.cpp" />
     <ClCompile Include="Entity_Manager.cpp" />
     <ClCompile Include="File_Manager.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Entity_Manager.h" />
     <ClInclude Include="File_Manager.h" />
     <ClInclude Include="JSON_Config.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="RenderWindow.h" />
     <ClInclude Include="Texture_Manager.h" />
     <ClInclude Include="vec2.h" />

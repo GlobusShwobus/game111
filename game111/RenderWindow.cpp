@@ -15,7 +15,9 @@ void RenderWindow::Clear()
 {
 	SDL_RenderClear(renderer);
 }
-
+bool RenderWindow::Good()const {
+	return window && renderer;
+}
 
 void RenderWindow::Display()
 {

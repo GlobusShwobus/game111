@@ -11,9 +11,7 @@ public:
 
 	RenderWindow(const char* title, int width, int height);
 
-	bool Good()const {
-		return window && renderer;
-	}
+	bool Good()const;//can be depricated into a more global generic func that checks pointers
 	void Clear();
 	void Display();
 	void Render(SDL_Texture* texture, const SDL_FRect* bb);

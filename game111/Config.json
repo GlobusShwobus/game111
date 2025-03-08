@@ -1,8 +1,8 @@
 {
 	"Player": {
 		"texture": "player_ver2",
-		"posx": 100,
-		"posy": 100,
+		"posx": 0,
+		"posy": 0,
 		"width": 32,
 		"height": 32,
 		"Base_speed": 5
@@ -21,8 +21,8 @@
 		"game_name": "pepega_game",
 		"framerate_cap": 80
 	},
-	"Testmap001": {
-		"name": "testmap001",
+	"Worldmap": {
+		"name": "worldmap",
 		"width": 2560,
 		"height": 1440
 	}

@@ -3,6 +3,7 @@
 #include "Texture_Manager.h"
 #include "Entity_Manager.h"
 #include "RenderWindow.h"
+#include "Grid.h"
 
 /*
 spawn player with right click
@@ -69,10 +70,12 @@ int main() {
 
     }
 
-    //initialize EntityManager
+    //initialize EntityManager, and grid
 
     EntityManager entman;
 
+    auto TESTMAP = textman.GetTexture("worldmap");
+    InstancedGrid mapgrid(TESTMAP->w, TESTMAP->h);
 
 
 
@@ -80,7 +83,6 @@ int main() {
 
     bool gameRunning = true;
     SDL_Event event;
-
 
     while (gameRunning) {
 
@@ -108,16 +110,53 @@ int main() {
 
             }
         }
-
+        //move~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        else if (event.type == SDL_EVENT_KEY_DOWN) {
+            for (auto& ent : entman.GetEntities()) {//fuck it it's just test code
+                auto* bb = ent->GetBB();
+                switch (event.key.scancode) {
+                case SDL_SCANCODE_W:
+                    printf("Up is pressed\n");
+                    if (!mapgrid.isNextFilled(bb->x, bb->y, up)) {
+                        mapgrid.SetNextTile(up, bb);
+                    }
+                    break;
+                case SDL_SCANCODE_A:
+                    if (!mapgrid.isNextFilled(bb->x, bb->y, left)) {
+                        mapgrid.SetNextTile(left, bb);
+                    }
+                    break;
+                case SDL_SCANCODE_S:
+                    if (!mapgrid.isNextFilled(bb->x, bb->y, down)) {
+                        mapgrid.SetNextTile(down, bb);
+                    }
+                    break;
+                case SDL_SCANCODE_D:
+                    if (!mapgrid.isNextFilled(bb->x, bb->y, right)) {
+                        mapgrid.SetNextTile(right, bb);
+                    }
+                    break;
+                default://fuck off
+                    break;
+                }
+            }
+        }
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         window.Clear();
+
+
+        window.Render(TESTMAP, nullptr);//idk wtf to do with this atm, i guess whenever i am ready to make rendering funcs more detailed, also order of drawing matters
 
         for (auto& ent : entman.GetEntities()) {
             window.Render(ent->GetTexture(), ent->GetBB());
         }
 
+
         int cont_size = entman.GetEntities().size();
-        printf("\n%s%d", "Entity size: ", cont_size);
+        
+        //printf("grid size: %d x %d == %d\n", mapgrid.getW(), mapgrid.getH(), mapgrid.getW()* mapgrid.getH()); //testing to make sure the grid is correct size
+        //printf("\n%s%d", "Entity size: ", cont_size);  //testing how many entities on exist
 
 
         window.Display();

@@ -19,7 +19,7 @@ class Entity {
 public:
 
 	SDL_Texture* GetTexture()const;
-	const SDL_FRect* GetBB()const;
+	SDL_FRect* GetBB();
 	EntityType GetType()const;
 	int GetID()const;
 	void Kill();

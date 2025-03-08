@@ -19,6 +19,6 @@ vec2f Entity::GetPosition()const {
 SDL_Texture* Entity::GetTexture()const {
 	return texture;
 }
-const SDL_FRect* Entity::GetBB()const {
+SDL_FRect* Entity::GetBB() {
 	return &bb;
 }

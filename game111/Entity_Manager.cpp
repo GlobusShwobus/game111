@@ -11,7 +11,6 @@ void EntityManager::Update()
 
 	add_next_frame.clear();
 	RemoveInactive();
-	//printf("ent size: %d\n", (int)all.size());
 }
 void EntityManager::RemoveInactive()
 {
