@@ -20,6 +20,14 @@ class InstancedGrid {
 
 	vec2i GetMoveDir(NextTile move_dir);
 
+	vec2i PixelToGrid(int x, int y) {
+		return { x / tile_w, y / tile_h };
+	}
+	vec2f GridToPixel(int grid_x, int grid_y) {
+		return{ (float)grid_x * tile_w , (float)grid_y * tile_h };
+	}
+
+
 public:
 
 	InstancedGrid(int image_width, int image_height) : width(image_width / tile_w), height(image_height / tile_h) {

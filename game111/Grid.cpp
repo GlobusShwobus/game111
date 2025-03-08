@@ -6,13 +6,14 @@ bool InstancedGrid::IsFilled(int x, int y) {
 	return is_occupied[y * width + x];
 }
 bool InstancedGrid::isNextFilled(int curr_x, int curr_y, NextTile move_dir) {
-	vec2i nexttile = GetMoveDir(move_dir);
-	curr_y += nexttile.y;
-	curr_x += nexttile.x;
+	vec2i gridpos = PixelToGrid(curr_x, curr_y);
+	vec2i nexttile = gridpos + GetMoveDir(move_dir);
 
-	assert(curr_x >= 0 && curr_x < width && curr_y >= 0 && curr_y < height);//1000% need to make a if case instead later
+	if (nexttile.x < 0 || nexttile.x >= width || nexttile.y < 0 || nexttile.y >= height) {
+		return true; // Treat out-of-bounds as "filled" to block movement
+	}
 
-	return is_occupied[curr_y * width + curr_x];
+	return is_occupied[nexttile.y * width + nexttile.x];
 }
 
 void InstancedGrid::SetTile(int x, int y, TileState state) {//0 being free it, 1 being fill it
@@ -20,25 +21,22 @@ void InstancedGrid::SetTile(int x, int y, TileState state) {//0 being free it, 1
 	is_occupied[y * width + x] = state;
 }
 void InstancedGrid::SetNextTile(NextTile move_dir, SDL_FRect* to_update) {//0 being free it, 1 being fill it
-	vec2i nexttile = GetMoveDir(move_dir);
+	vec2i gridpos = PixelToGrid(to_update->x, to_update->y);
+	vec2i nexttile = gridpos + GetMoveDir(move_dir);
 
-	int curr_x = to_update->x;
-	int curr_y = to_update->y;
+	if (nexttile.x < 0 || nexttile.x >= width || nexttile.y < 0 || nexttile.y >= height) {
+		return; 
+	}
 
-	curr_y += nexttile.y;
-	curr_x += nexttile.x;
+	SetTile(gridpos.x, gridpos.y, TileState_free);
 
+	is_occupied[nexttile.y * width + nexttile.x] = TileState_fill;
 
-	assert(curr_x >= 0 && curr_x < width && curr_y >= 0 && curr_y < height);//will rework at somepoint lol
-	//if didnt crash then
+	//update the entity because yeah
 
-	SetTile(to_update->x, to_update->y, TileState_free);//free current
-
-
-	to_update->x = curr_x;
-	to_update->y = curr_y;
-
-	is_occupied[curr_y * width + curr_x] = TileState_fill;
+	vec2f newPixelPos = GridToPixel(nexttile.x, nexttile.y);
+	to_update->x = newPixelPos.x;
+	to_update->y = newPixelPos.y;
 }
 
 vec2i InstancedGrid::GetMoveDir(NextTile move_dir) {
