@@ -122,16 +122,19 @@ int main() {
                     }
                     break;
                 case SDL_SCANCODE_A:
+                    printf("left is pressed\n");
                     if (!mapgrid.isNextFilled(bb->x, bb->y, left)) {
                         mapgrid.SetNextTile(left, bb);
                     }
                     break;
                 case SDL_SCANCODE_S:
+                    printf("down is pressed\n");
                     if (!mapgrid.isNextFilled(bb->x, bb->y, down)) {
                         mapgrid.SetNextTile(down, bb);
                     }
                     break;
                 case SDL_SCANCODE_D:
+                    printf("right is pressed\n");
                     if (!mapgrid.isNextFilled(bb->x, bb->y, right)) {
                         mapgrid.SetNextTile(right, bb);
                     }

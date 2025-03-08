@@ -64,8 +64,8 @@ private:
 };
 
 enum TileState{
-TileState_fill=0,
-TileState_free=1
+TileState_fill=1,
+TileState_free=0
 };
 
 enum NextTile {

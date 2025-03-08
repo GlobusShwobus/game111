@@ -1,6 +1,6 @@
 #include "Grid.h"
 
-
+#include <iostream> 
 bool InstancedGrid::IsFilled(int x, int y) {
 	assert(x >= 0 && x < width && y >= 0 && y < height);//just crash because code err
 	return is_occupied[y * width + x];
@@ -10,7 +10,7 @@ bool InstancedGrid::isNextFilled(int curr_x, int curr_y, NextTile move_dir) {
 	vec2i nexttile = gridpos + GetMoveDir(move_dir);
 
 	if (nexttile.x < 0 || nexttile.x >= width || nexttile.y < 0 || nexttile.y >= height) {
-		return true; // Treat out-of-bounds as "filled" to block movement
+		return true;
 	}
 
 	return is_occupied[nexttile.y * width + nexttile.x];
